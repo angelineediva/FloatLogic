@@ -3,13 +3,26 @@
 //  FloatLojic
 //
 //  Created by Angeline on 30/04/26.
-//
+//  Adjusted by Feivel on 30/04/26
 
 import SwiftUI
 
 struct TutorialView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        // ZSstack ini cmn placeholder supaya si TutorialCard pindah kebawah
+        ZStack {
+            Color(.gray).edgesIgnoringSafeArea(.all)
+        }
+        Spacer()
+        
+        ZStack(alignment: .bottom) {
+            TutorialCard(disturbances: DisturbanceInfo.all) {
+                print("Start Now tapped")
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 32)
+        }
+        .ignoresSafeArea(edges: .top)
     }
 }
 
