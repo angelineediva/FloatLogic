@@ -26,26 +26,26 @@ extension DisturbanceInfo {
         DisturbanceInfo(
             type: .wind,
             title: "Wind",
-            body: "Angin menciptakan tarikan horizontal pada pelampung, menyebabkannya bergeser perlahan ke satu arah. Tali pancing miring dan pelampung condong — ini bukan gigitan ikan.",
+            body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans—this isn't a fish bite.",
             iconName: "wind"
         ),
         DisturbanceInfo(
             type: .wave,
             title: "Wave",
-            body: "Ombak menciptakan gerakan naik-turun yang berirama dan konsisten. Pelampung bergerak secara periodik mengikuti pola gelombang air.",
+            body: "The waves create a rhythmic and consistent up-and-down motion. The bobber moves periodically following the wave pattern.",
             iconName: "water.waves"
         ),
         DisturbanceInfo(
             type: .fishNibble,
             title: "Fish Nibble",
-            body: "Ikan menyentuh umpan dari bawah, menyebabkan pelampung turun tiba-tiba lalu berhenti sejenak. Tunggu jeda itu sebelum menarik — itulah momen yang tepat.",
+            body: "The fish touches the bait from below, causing the bobber to drop suddenly and then pause. Wait for that pause before pulling.",
             iconName: "fish"
         ),
         DisturbanceInfo(
             type: .strike,
             title: "Strike",
-            body: "Arus bawah air mendorong pelampung secara perlahan dan konsisten. Berbeda dengan angin, pergerakannya lebih halus dan berasal dari bawah permukaan.",
-            iconName: "arrow.left.and.right.wave"
+            body: "Underwater currents push the bobber slowly and consistently. Unlike wind, their movement is smoother and originates from beneath the surface.",
+            iconName: "checkmark"
         )
     ]
 }

@@ -28,17 +28,19 @@ struct TutorialCard: View {
                 .padding(.bottom, 8)
 
             Text(selected.body)
-                .font(.system(size: 14, weight: .regular))
+                .font(.system(size: 14))
                 .foregroundColor(.secondary)
                 .lineSpacing(4)
                 .padding(.bottom, 24)
+                .environment(\.layoutDirection, .leftToRight)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.leading)
 
             startButton
         }
         .padding(20)
         .background(Color(.systemBackground))
         .cornerRadius(20)
-//        .glassEffect()
     }
 
     // MARK: - Tab Indicator

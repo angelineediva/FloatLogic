@@ -9,10 +9,13 @@ import SwiftUI
 
 struct TutorialView: View {
     var body: some View {
+        // ZSstack ini cmn placeholder supaya si TutorialCard pindah kebawah
+        ZStack {
+            Color(.gray).edgesIgnoringSafeArea(.all)
+        }
+        Spacer()
+        
         ZStack(alignment: .bottom) {
-            
-            
-            // TutorialCard floating di bawah
             TutorialCard(disturbances: DisturbanceInfo.all) {
                 print("Start Now tapped")
             }
