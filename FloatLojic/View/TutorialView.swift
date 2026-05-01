@@ -16,9 +16,7 @@ struct TutorialView: View {
         Spacer()
         
         ZStack(alignment: .bottom) {
-            TutorialCard(disturbances: DisturbanceInfo.all) {
-                print("Start Now tapped")
-            }
+            TutorialCard(disturbances: DisturbanceInfo.all)
             .padding(.horizontal, 16)
 //            .padding(.bottom, 32)
         }
