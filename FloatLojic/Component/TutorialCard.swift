@@ -45,42 +45,13 @@ struct TutorialCard: View {
 
     // MARK: - Tab Indicator
     private var tabIndicator: some View {
-        HStack(spacing: 0) {
+        Picker("Disturbance", selection: $selectedIndex) {
             ForEach(disturbances.indices, id: \.self) { index in
-                let item = disturbances[index]
-                let isActive = index == selectedIndex
-
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        selectedIndex = index
-                    }
-                } label: {
-                    VStack(spacing: 6) {
-                        Circle()
-                            .fill(isActive ? Color.teal : Color(.label))
-                            .frame(width: 44, height: 44)
-                            .overlay(
-                                Image(systemName: item.iconName)
-                                    .font(.system(size: 18, weight: .regular))
-                                    .foregroundColor(.white)
-                            )
-
-                        Text(item.title.components(separatedBy: " ").last ?? item.title)
-                            .font(.system(size: 10, weight: .medium))
-                            .foregroundColor(isActive ? .teal : Color(.secondaryLabel))
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .frame(width: 56)
-                    }
-                }
-                .frame(maxWidth: .infinity)
+                Image(systemName: disturbances[index].iconName)
+                    .tag(index)
             }
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 16)
-        .background(.clear)
-        .clipShape(Capsule())
-        .glassEffect(.regular.tint(.clear), in: Capsule())
+        .pickerStyle(.segmented)
     }
 
     // MARK: - CTA Button

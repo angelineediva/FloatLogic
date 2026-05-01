@@ -9,7 +9,7 @@ import Foundation
 
 enum DisturbanceType: CaseIterable {
     case wind
-    case wave
+    case noBait
     case fishNibble
     case strike
 }
@@ -26,14 +26,14 @@ extension DisturbanceInfo {
         DisturbanceInfo(
             type: .wind,
             title: "Wind",
-            body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans—this isn't a fish bite.",
+            body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans this isn't a fish bite.",
             iconName: "wind"
         ),
         DisturbanceInfo(
-            type: .wave,
-            title: "Wave",
-            body: "The waves create a rhythmic and consistent up-and-down motion. The bobber moves periodically following the wave pattern.",
-            iconName: "water.waves"
+            type: .noBait,
+            title: "No Bait",
+            body: "When the bait is gone, the float feels lighter and moves unnaturally either too stable or too buoyant. It's time to lift it and add a new bait.",
+            iconName: "exclamationmark.arrow.trianglehead.counterclockwise.rotate.90"
         ),
         DisturbanceInfo(
             type: .fishNibble,

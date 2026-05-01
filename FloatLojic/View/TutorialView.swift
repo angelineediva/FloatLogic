@@ -20,7 +20,7 @@ struct TutorialView: View {
                 print("Start Now tapped")
             }
             .padding(.horizontal, 16)
-            .padding(.bottom, 32)
+//            .padding(.bottom, 32)
         }
         .ignoresSafeArea(edges: .top)
     }
