@@ -65,10 +65,10 @@ struct TutorialView: View {
                 .rotationEffect(.degrees(rotation))
                 .animation(.easeInOut(duration: 0.15), value: bobberIndex)
         }
-        .onAppear {
+        .onTapGesture {
 //            animateEmpty()
-            animateWind()
-//            animateNibble()
+//            animateWind()
+            animateNibble()
 //            animateStrike()
         }
     }
