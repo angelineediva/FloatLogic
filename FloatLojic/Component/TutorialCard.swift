@@ -13,28 +13,35 @@ struct TutorialCard: View {
 
     @State private var selectedIndex: Int = 0
 
-    private var selected: DisturbanceInfo {
-        disturbances[selectedIndex]
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             tabIndicator
                 .padding(.bottom, 20)
 
-            Text(selected.title)
-                .font(.system(size: 22, weight: .semibold, design: .serif))
-                .foregroundColor(.primary)
-                .padding(.bottom, 8)
+            TabView(selection: $selectedIndex) {
+                ForEach(Array(disturbances.enumerated()), id: \.offset) { index, disturbance in
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(disturbance.title)
+                            .font(.system(size: 22, weight: .semibold, design: .serif))
+                            .foregroundColor(.primary)
+                            .padding(.bottom, 8)
 
-            Text(selected.body)
-                .font(.system(size: 14))
-                .foregroundColor(.secondary)
-                .lineSpacing(4)
-                .padding(.bottom, 24)
-                .environment(\.layoutDirection, .leftToRight)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .multilineTextAlignment(.leading)
+                        Text(disturbance.body)
+                            .font(.system(size: 14))
+                            .foregroundColor(.secondary)
+                            .lineSpacing(4)
+                            .environment(\.layoutDirection, .leftToRight)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
+
+                        Spacer(minLength: 0)
+                    }
+                    .tag(index)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 100)
+            .padding(.bottom, 24)
 
             startButton
         }
