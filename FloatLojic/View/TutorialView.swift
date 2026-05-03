@@ -44,8 +44,9 @@ struct TutorialView: View {
             
             Image("Water")
                         .resizable()
-                        .frame(width: 349, height: 242)
-                        .offset(y : 20)
+                        .frame(width: 349, height: 442)
+                        .offset(y : -75)
+    
 
             // GELEMBUNG AER
             if bubbleState != .none {
@@ -65,11 +66,11 @@ struct TutorialView: View {
                 .rotationEffect(.degrees(rotation))
                 .animation(.easeInOut(duration: 0.15), value: bobberIndex)
         }
-        .onAppear {
+        .onTapGesture {
 //            animateEmpty()
-            animateWind()
+//            animateWind()
 //            animateNibble()
-//            animateStrike()
+            animateStriker()
         }
     }
 
@@ -139,6 +140,41 @@ struct TutorialView: View {
         }
     }
 
+    func animateStriker() {
+        reset()
+        let currentID = animationID
+
+        bubbleState = .small
+
+        withAnimation(.easeInOut(duration: 0.2)) {
+            bobberIndex = 1
+            offsetY = 6
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard currentID == animationID else { return }
+            bubbleState = .medium
+            bobberIndex = 2
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard currentID == animationID else { return }
+            bubbleState = .medium
+            bobberIndex = 3
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard currentID == animationID else { return }
+            bubbleState = .medium
+            bobberIndex = 4
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            guard currentID == animationID else { return }
+            bobberIndex = 0
+            offsetY = 0
+            bubbleState = .none
+        }
+    }
     // Strike
     func animateStrike() {
         reset()
