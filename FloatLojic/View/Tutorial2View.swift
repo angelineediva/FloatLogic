@@ -93,6 +93,14 @@ struct Tutorial2View: View {
                     .rotationEffect(.degrees(rotation))
                 
                 MovingWaterView()
+        
+                
+                Image("Frame putih")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geo.size.width, height:800)
+                    .clipped()
+                    .offset(y: 50)
                 
                     .onTapGesture {
 //                        animateWind()
