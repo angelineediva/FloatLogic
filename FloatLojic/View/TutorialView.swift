@@ -9,11 +9,11 @@ import SwiftUI
 
 struct TutorialView: View {
     var body: some View {
-
+        
         Color(.gray).edgesIgnoringSafeArea(.all)
         
         TutorialCard(disturbances: DisturbanceInfo.all)
-            .padding(.horizontal, 16)
+        //            .padding(.horizontal, 16)
         //            .padding(.bottom, 32)
     }
 }
