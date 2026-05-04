@@ -27,7 +27,7 @@ struct HomeView: View {
                 Button {
                     // Action here
                 } label: {
-                    Text("Start")
+                    Text("Start now")
                         .font(.title2)
                         .fontWeight(.heavy)
                         .foregroundStyle(.black)
