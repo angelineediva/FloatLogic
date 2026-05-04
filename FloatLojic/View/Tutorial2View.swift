@@ -24,33 +24,37 @@ struct MovingWaterView: View {
     
     var body: some View {
         GeometryReader { geo in
-            let width = geo.size.width
+            let height: CGFloat = 200
             
             HStack(spacing: 0) {
                 Image("Air Atas Panjang")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: width, height: 224)
-                    .clipped()
+                    .frame(height: height)
                 
                 Image("Air Atas Panjang")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: width, height: 224)
-                    .clipped()
+                    .frame(height: height)
             }
-            .offset(x: offsetX, y:325)
-            .onAppear {
-                withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
-                    offsetX = -width
+            .background(
+                GeometryReader { innerGeo in
+                    Color.clear
+                        .onAppear {
+                            let contentWidth = innerGeo.size.width / 2
+                            
+                            withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
+                                offsetX = -contentWidth
+                            }
+                        }
                 }
-            }
+            )
+            .offset(x: offsetX)
+            .clipped()
         }
-        .frame(maxWidth: .infinity)
-        .clipped()
+        .frame(height: 100)
     }
 }
-
 
 struct Tutorial2View: View {
     @State private var bobberState: BobberState = .wind
@@ -77,13 +81,13 @@ struct Tutorial2View: View {
                     .offset(y: -75)
                     .scaleEffect(1.1)
                 
-                Image("Gelembung Air")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: geo.size.width, height: 442)
-                    .clipped()
-                    .offset(y: -70)
-                
+                //                Image("Gelembung Air")
+                //                    .resizable()
+                //                    .scaledToFill()
+                //                    .frame(width: geo.size.width, height: 442)
+                //                    .clipped()
+                //                    .offset(y: -70)
+                //
                 Image("Bobber Miring")
                     .resizable()
                     .scaledToFill()
@@ -93,7 +97,7 @@ struct Tutorial2View: View {
                     .rotationEffect(.degrees(rotation))
                 
                 MovingWaterView()
-        
+                
                 
                 Image("Frame putih")
                     .resizable()
@@ -103,10 +107,10 @@ struct Tutorial2View: View {
                     .offset(y: 50)
                 
                     .onTapGesture {
-//                        animateWind()
-//                        animateEmpty()
-//                        animateNibble()
-                        animateStrike()
+                        //                        animateWind()
+                        //                        animateEmpty()
+                                                animateNibble()
+//                        animateStrike()
                     }
             }
         }
@@ -158,7 +162,7 @@ struct Tutorial2View: View {
         }
     }
     
-
+    
 }
 
 

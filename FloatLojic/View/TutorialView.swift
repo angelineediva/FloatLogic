@@ -68,9 +68,9 @@ struct TutorialView: View {
         }
         .onTapGesture {
 //            animateEmpty()
-//            animateWind()
+            animateWind()
 //            animateNibble()
-            animateStriker()
+//            animateStriker()
         }
     }
 
@@ -109,7 +109,7 @@ struct TutorialView: View {
         bubbleState = .none
 
         withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
-            offsetX = 10
+            offsetX = 15
             rotation = 5
         }
     }
