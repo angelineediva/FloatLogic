@@ -24,7 +24,6 @@ struct HomeView: View {
             .glassEffect()
             .foregroundStyle(Color(.black))
             .buttonBorderShape(.roundedRectangle)
-            Text("P")
         }
     }
 }
