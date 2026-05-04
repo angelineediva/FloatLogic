@@ -96,6 +96,8 @@ struct Tutorial2View: View {
                     .offset(x: offsetX, y: offsetY - 70)
                     .rotationEffect(.degrees(rotation))
                 
+
+                
                 MovingWaterView()
                 
                 
