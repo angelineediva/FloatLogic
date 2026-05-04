@@ -10,7 +10,9 @@ import SwiftUI
 import UIKit
 
 struct HomeView: View {
+    @GestureState private var isPressed = false
     var body: some View {
+        
         ZStack {
             LoopingVideoBackground(name: "HomepageAsset", fileExtension: "mov")
                 .ignoresSafeArea()
@@ -27,6 +29,9 @@ struct HomeView: View {
                 Spacer()
                     .frame(maxHeight: 400)
                
+                
+
+                // Di dalam VStack, ganti NavigationLink:
                 NavigationLink {
                     TutorialView()
                 } label: {
@@ -34,14 +39,21 @@ struct HomeView: View {
                         Text("START")
                             .font(.system(size: 20, weight: .black, design: .rounded))
                     }
-                    .foregroundStyle(.black.opacity(0.8))
+                    .foregroundStyle(.black.opacity(0.7))
                     .padding(.horizontal, 36)
                     .padding(.vertical, 16)
                 }
-                .glassEffect(.regular.tint(Color.white.opacity(0.25)), in: Capsule())
+                .glassEffect(.clear, in: Capsule())
                 .buttonStyle(.plain)
                 .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
-            }
+                .scaleEffect(isPressed ? 1.12 : 1.0)
+                .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isPressed)
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .updating($isPressed) { _, state, _ in
+                            state = true
+                        }
+                )            }
         }
         .toolbar(.hidden, for: .navigationBar)
     }
