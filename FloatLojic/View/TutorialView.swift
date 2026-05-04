@@ -2,8 +2,7 @@
 //  TutorialView.swift
 //  FloatLojic
 //
-//  Created by Angeline on 30/04/26.
-//  Adjusted by Feivel on 30/04/26
+//  Created by Feivel on 30/04/26
 
 import SwiftUI
 
