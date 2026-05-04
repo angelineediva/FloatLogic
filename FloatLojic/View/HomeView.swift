@@ -18,27 +18,32 @@ struct HomeView: View {
             
             VStack {
                 Spacer()
-                    .frame(maxHeight: 100)
+                    .frame(maxHeight: 50)
                 Text("Float Logic")
-                    .font(.system(size: 48, weight: .bold))
-                    .foregroundStyle(.black)
-                    .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                    .font(.system(size: 58, weight: .black, design: .rounded))
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.4), radius: 0, x: 3, y: 3) // hard shadow biar cartoon
+                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                 Spacer()
-                    .frame(maxHeight: 300)
-                Button {
-                    // Action here
+                    .frame(maxHeight: 400)
+               
+                NavigationLink {
+                    TutorialView()
                 } label: {
-                    Text("Start now")
-                        .font(.title2)
-                        .fontWeight(.heavy)
-                        .foregroundStyle(.black)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 16)
+                    HStack(spacing: 8) {
+                        Text("START")
+                            .font(.system(size: 20, weight: .black, design: .rounded))
+                    }
+                    .foregroundStyle(.black.opacity(0.8))
+                    .padding(.horizontal, 36)
+                    .padding(.vertical, 16)
                 }
-                .glassEffect(.regular, in: Capsule())
+                .glassEffect(.regular.tint(Color.white.opacity(0.25)), in: Capsule())
                 .buttonStyle(.plain)
+                .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
             }
         }
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
