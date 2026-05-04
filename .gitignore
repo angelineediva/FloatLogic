@@ -1,3 +1,21 @@
 *.xcuserdata
 *.xcworkspace/xcuserdata
 *.xcuserstate
+
+# Xcode build products
+DerivedData/
+build/
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# App bundles and archives
+*.app
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# macOS
+.DS_Store
