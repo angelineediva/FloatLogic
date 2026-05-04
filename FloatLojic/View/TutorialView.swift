@@ -2,19 +2,18 @@
 //  TutorialView.swift
 //  FloatLojic
 //
-//  Created by Angeline on 30/04/26.
-//
+//  Created by Feivel on 30/04/26
 
 import SwiftUI
 
 struct TutorialView: View {
-
-//     MARK: - Bobber & Bubble State
-
+    
+    //     MARK: - Bobber & Bubble State
+    
     enum BubbleState {
         case none, small, medium, large
     }
-
+    
     let bobberImages = [
         "BobberFull", //STATE 1 SBLM KECEMPLUNG
         "BobberSt2",
@@ -22,32 +21,32 @@ struct TutorialView: View {
         "BobberSt4",
         "BobberSt5"  // Kecemplung
     ]
-
+    
     @State private var bobberIndex: Int = 0
     @State private var bubbleState: BubbleState = .none
-
+    
     // motion
     @State private var offsetY: CGFloat = 0
     @State private var offsetX: CGFloat = 0
     @State private var rotation: Double = 0
-
+    
     // cancel previous animations
     @State private var animationID = UUID()
-
+    
     var body: some View {
         ZStack {
-
+            
             Image("Background")
-                           .resizable()
-                           .frame(width: 349, height: 380)
-                           .offset(y : -75)
+                .resizable()
+                .frame(width: 349, height: 380)
+                .offset(y : -75)
             
             Image("Water")
-                        .resizable()
-                        .frame(width: 349, height: 442)
-                        .offset(y : -75)
-    
-
+                .resizable()
+                .frame(width: 349, height: 442)
+                .offset(y : -75)
+            
+            
             // GELEMBUNG AER
             if bubbleState != .none {
                 Image("Bubble")
@@ -57,7 +56,7 @@ struct TutorialView: View {
                     .opacity(0.7)
                     .animation(.easeInOut(duration: 0.2), value: bubbleState)
             }
-
+            
             // BOBBER
             Image(bobberImages[bobberIndex])
                 .resizable()
@@ -67,15 +66,15 @@ struct TutorialView: View {
                 .animation(.easeInOut(duration: 0.15), value: bobberIndex)
         }
         .onTapGesture {
-//            animateEmpty()
+            //            animateEmpty()
             animateWind()
-//            animateNibble()
-//            animateStriker()
+            //            animateNibble()
+            //            animateStriker()
         }
     }
-
+    
     // MARK: - Bubble Size
-
+    
     var bubbleSize: CGSize {
         switch bubbleState {
         case .none:
@@ -88,9 +87,9 @@ struct TutorialView: View {
             return CGSize(width: 169, height: 70)
         }
     }
-
+    
     // MARK: - Reset
-
+    
     func reset() {
         animationID = UUID() // invalidate previous sequence
         offsetX = 0
@@ -99,39 +98,39 @@ struct TutorialView: View {
         bobberIndex = 0
         bubbleState = .none
     }
-
+    
     // MARK: - Animations
-
+    
     // Wind
     func animateWind() {
         reset()
-
+        
         bubbleState = .none
-
+        
         withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
             offsetX = 15
             rotation = 5
         }
     }
-
+    
     //Nibble
     func animateNibble() {
         reset()
         let currentID = animationID
-
+        
         bubbleState = .small
-
+        
         withAnimation(.easeInOut(duration: 0.2)) {
             bobberIndex = 1
             offsetY = 6
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             guard currentID == animationID else { return }
             bubbleState = .medium
             bobberIndex = 2
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             guard currentID == animationID else { return }
             bobberIndex = 0
@@ -139,18 +138,18 @@ struct TutorialView: View {
             bubbleState = .none
         }
     }
-
+    
     func animateStriker() {
         reset()
         let currentID = animationID
-
+        
         bubbleState = .small
-
+        
         withAnimation(.easeInOut(duration: 0.2)) {
             bobberIndex = 1
             offsetY = 6
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             guard currentID == animationID else { return }
             bubbleState = .medium
@@ -162,7 +161,7 @@ struct TutorialView: View {
             bubbleState = .medium
             bobberIndex = 3
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             guard currentID == animationID else { return }
             bubbleState = .medium
@@ -179,54 +178,53 @@ struct TutorialView: View {
     func animateStrike() {
         reset()
         let currentID = animationID
-
+        
         bubbleState = .small
-
+        
         withAnimation(.easeIn(duration: 0.1)) {
             bobberIndex = 1
-//            offsetY = 10
+            //            offsetY = 10
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             guard currentID == animationID else { return }
             bubbleState = .medium
             bobberIndex = 2
-//            offsetY = 20
+            //            offsetY = 20
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             guard currentID == animationID else { return }
             bubbleState = .large
             bobberIndex = 3
-//            offsetY = 30
+            //            offsetY = 30
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             guard currentID == animationID else { return }
             bobberIndex = 4
-//            offsetY = 40
+            //            offsetY = 40
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             guard currentID == animationID else { return }
             bobberIndex = 0
-//            offsetY = 0
+            //            offsetY = 0
             bubbleState = .none
         }
     }
-
+    
     // Nobait (umpan gone)
     func animateEmpty() {
         reset()
-
+        
         bubbleState = .none
-
+        
         withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
             offsetX = 2
         }
     }
 }
-
 
 #Preview {
     TutorialView()
