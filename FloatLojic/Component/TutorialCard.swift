@@ -13,28 +13,35 @@ struct TutorialCard: View {
 
     @State private var selectedIndex: Int = 0
 
-    private var selected: DisturbanceInfo {
-        disturbances[selectedIndex]
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             tabIndicator
                 .padding(.bottom, 20)
 
-            Text(selected.title)
-                .font(.system(size: 22, weight: .semibold, design: .serif))
-                .foregroundColor(.primary)
-                .padding(.bottom, 8)
+            TabView(selection: $selectedIndex) {
+                ForEach(Array(disturbances.enumerated()), id: \.offset) { index, disturbance in
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(disturbance.title)
+                            .font(.system(size: 22, weight: .semibold, design: .serif))
+                            .foregroundColor(.primary)
+                            .padding(.bottom, 8)
 
-            Text(selected.body)
-                .font(.system(size: 14))
-                .foregroundColor(.secondary)
-                .lineSpacing(4)
-                .padding(.bottom, 24)
-                .environment(\.layoutDirection, .leftToRight)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .multilineTextAlignment(.leading)
+                        Text(disturbance.body)
+                            .font(.system(size: 14))
+                            .foregroundColor(.secondary)
+                            .lineSpacing(4)
+                            .environment(\.layoutDirection, .leftToRight)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
+
+                        Spacer(minLength: 0)
+                    }
+                    .tag(index)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 100)
+            .padding(.bottom, 24)
 
             startButton
         }
@@ -45,42 +52,13 @@ struct TutorialCard: View {
 
     // MARK: - Tab Indicator
     private var tabIndicator: some View {
-        HStack(spacing: 0) {
+        Picker("Disturbance", selection: $selectedIndex) {
             ForEach(disturbances.indices, id: \.self) { index in
-                let item = disturbances[index]
-                let isActive = index == selectedIndex
-
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        selectedIndex = index
-                    }
-                } label: {
-                    VStack(spacing: 6) {
-                        Circle()
-                            .fill(isActive ? Color.teal : Color(.label))
-                            .frame(width: 44, height: 44)
-                            .overlay(
-                                Image(systemName: item.iconName)
-                                    .font(.system(size: 18, weight: .regular))
-                                    .foregroundColor(.white)
-                            )
-
-                        Text(item.title.components(separatedBy: " ").last ?? item.title)
-                            .font(.system(size: 10, weight: .medium))
-                            .foregroundColor(isActive ? .teal : Color(.secondaryLabel))
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .frame(width: 56)
-                    }
-                }
-                .frame(maxWidth: .infinity)
+                Image(systemName: disturbances[index].iconName)
+                    .tag(index)
             }
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 16)
-        .background(.clear)
-        .clipShape(Capsule())
-        .glassEffect(.regular.tint(.clear), in: Capsule())
+        .pickerStyle(.segmented)
     }
 
     // MARK: - CTA Button

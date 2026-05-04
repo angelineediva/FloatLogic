@@ -9,20 +9,12 @@ import SwiftUI
 
 struct TutorialView: View {
     var body: some View {
-        // ZSstack ini cmn placeholder supaya si TutorialCard pindah kebawah
-        ZStack {
-            Color(.gray).edgesIgnoringSafeArea(.all)
-        }
-        Spacer()
         
-        ZStack(alignment: .bottom) {
-            TutorialCard(disturbances: DisturbanceInfo.all) {
-                print("Start Now tapped")
-            }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 32)
-        }
-        .ignoresSafeArea(edges: .top)
+        Color(.gray).edgesIgnoringSafeArea(.all)
+        
+        TutorialCard(disturbances: DisturbanceInfo.all)
+        //            .padding(.horizontal, 16)
+        //            .padding(.bottom, 32)
     }
 }
 
