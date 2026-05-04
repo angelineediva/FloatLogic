@@ -8,9 +8,8 @@
 import SwiftUI
 import Combine
 
-class TutorialViewModel: ObservableObject {
-    
-    
+@MainActor
+final class TutorialViewModel: ObservableObject {
     //JANGAN DIHAPUS YANG BUBBLE KARENA AKAN KEPAKE
     enum BubbleState {
         case none, small, medium, large
@@ -20,80 +19,142 @@ class TutorialViewModel: ObservableObject {
     @Published var offsetY: CGFloat = 0
     @Published var offsetX: CGFloat = 0
     @Published var rotation: Double = 0
-    
-    private var animationID = UUID()
-    
-    // MARK: - Reset
-    func reset() {
-        animationID = UUID()
+
+    private var loopTask: Task<Void, Never>?
+
+    deinit {
+        loopTask?.cancel()
+    }
+
+    // MARK: - Loop Control
+    func startLoop(for type: DisturbanceType) {
+        loopTask?.cancel()
+        loopTask = Task { [weak self] in
+            guard let self else { return }
+
+            while !Task.isCancelled {
+                do {
+                    try await self.playCycle(for: type)
+                    try await self.pause(seconds: 1)
+                } catch is CancellationError {
+                    break
+                } catch {
+                    break
+                }
+            }
+        }
+    }
+
+    private func resetVisualState() {
         offsetX = 0
         offsetY = 0
         rotation = 0
         bubbleState = .none
     }
-    
+
     // MARK: - Animations
-    
-    
-    //kena angin
-    func animateWind() {
-        reset()
-        
-        withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
-            offsetX = 5
-            rotation = 5
+    private func playCycle(for type: DisturbanceType) async throws {
+        resetVisualState()
+
+        switch type {
+        case .wind:
+            try await animateWind()
+        case .noBait:
+            try await animateEmpty()
+        case .fishNibble:
+            try await animateNibble()
+        case .strike:
+            try await animateStriker()
         }
     }
-    
-    //kenanibble
-    func animateNibble() {
-        reset()
-        let currentID = animationID
-        
+
+    // kena angin
+    private func animateWind() async throws {
+        withAnimation(.easeInOut(duration: 1)) {
+            offsetX = 8
+            rotation = 4
+        }
+        try await pause(seconds: 1)
+
+        withAnimation(.easeInOut(duration: 1)) {
+            offsetX = -8
+            rotation = -4
+        }
+        try await pause(seconds: 1)
+
+        withAnimation(.easeInOut(duration: 0.8)) {
+            offsetX = 0
+            rotation = 0
+        }
+        try await pause(seconds: 0.8)
+    }
+
+    // kena nibble
+    private func animateNibble() async throws {
         bubbleState = .small
-        
+
         withAnimation(.easeInOut(duration: 0.2)) {
             offsetY = 6
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            guard currentID == self.animationID else { return }
-            self.bubbleState = .medium
+        try await pause(seconds: 0.2)
+
+        bubbleState = .medium
+
+        withAnimation(.easeInOut(duration: 0.2)) {
+            offsetY = 0
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            guard currentID == self.animationID else { return }
-            self.offsetY = 0
-            self.bubbleState = .none
-        }
+        try await pause(seconds: 0.2)
+
+        bubbleState = .none
     }
-    
-    //kena umpan
-    func animateStriker() {
-        reset()
-        let currentID = animationID
-        
+
+    // kena umpan
+    private func animateStriker() async throws {
         bubbleState = .small
-        
+
         withAnimation(.easeInOut(duration: 0.15)) {
             offsetY = 50
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            guard currentID == self.animationID else { return }
-            
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.4)) {
-                self.offsetY = 30
-            }
+        try await pause(seconds: 0.15)
+
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.4)) {
+            offsetY = 30
         }
+        try await pause(seconds: 0.4)
+
+        bubbleState = .large
+
+        withAnimation(.easeOut(duration: 0.3)) {
+            offsetY = 0
+        }
+        try await pause(seconds: 0.3)
+
+        bubbleState = .none
     }
-    
-    //umpan kosong
-    func animateEmpty() {
-        reset()
-        
-        withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
-            offsetX = 2
+
+    // umpan kosong
+    private func animateEmpty() async throws {
+        withAnimation(.easeInOut(duration: 1.2)) {
+            offsetX = 3
+            offsetY = -2
         }
+        try await pause(seconds: 1.2)
+
+        withAnimation(.easeInOut(duration: 1.2)) {
+            offsetX = -3
+            offsetY = 2
+        }
+        try await pause(seconds: 1.2)
+
+        withAnimation(.easeInOut(duration: 0.8)) {
+            offsetX = 0
+            offsetY = 0
+        }
+        try await pause(seconds: 0.8)
+    }
+
+    private func pause(seconds: Double) async throws {
+        try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+        try Task.checkCancellation()
     }
 }

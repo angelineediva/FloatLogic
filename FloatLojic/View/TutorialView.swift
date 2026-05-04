@@ -5,41 +5,75 @@
 //  Created by Feivel on 30/04/26
 
 import SwiftUI
+
 struct TutorialView: View {
-    
     @StateObject private var vm = TutorialViewModel()
-    
+    @State private var selectedIndex: Int = 0
+    @State private var showsPracticeView = false
+
     var body: some View {
-        ZStack {
-            Image("Background")
-                .resizable()
-                .frame(width: 349, height: 380)
-                .offset(y: -75) //ini peletakan mau lebih naik / turun, kalau ada X berarti peletakan kiri / kanan
-            
-            Image("Water")
-                .resizable()
-                .frame(width: 349, height: 442)
-                .offset(y: -75)
-            
-            Image("BobberFull")
-                .resizable()
-                .frame(width: 40, height: 80)
-                .offset(x: vm.offsetX, y: vm.offsetY - 20)
-            
-            //Ini Air di depan bobber nya buat nutupin
-            Image("airnew")
-                .resizable()
-                .frame(width: 349, height: 470)
-                .offset(x: -5, y: -70)
-            
-            
-            
+        VStack(spacing: 0) {
+            animationFrame
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            TutorialCard(
+                disturbances: DisturbanceInfo.all,
+                selectedIndex: $selectedIndex,
+                onStart: { showsPracticeView = true }
+            )
+//                .padding(.horizontal, 20)
+//                .padding(.top, 24)
+//                .padding(.bottom, 24)
         }
-        
-        //Kalau mau coba animate bisa ganti 'vm.animate[nama]'
-        .onTapGesture {
-            vm.animateNibble()
+        .navigationDestination(isPresented: $showsPracticeView) {
+            PracticeView()
         }
+        .onAppear {
+            vm.startLoop(for: selectedDisturbance.type)
+        }
+        .onChange(of: selectedIndex) { _, _ in
+            vm.startLoop(for: selectedDisturbance.type)
+        }
+    }
+
+    private var selectedDisturbance: DisturbanceInfo {
+        DisturbanceInfo.all[selectedIndex]
+    }
+
+    private var animationFrame: some View {
+        GeometryReader { geometry in
+            let frameWidth = geometry.size.width + 80
+            let frameHeight = geometry.size.height
+
+            ZStack {
+                Color(red: 0.75, green: 0.88, blue: 0.96)
+
+                Image("Background")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: frameWidth, height: frameHeight)
+
+                Image("Water")
+                    .resizable()
+                    .scaledToFill()
+//                    .frame(width: frameWidth, height: frameHeight)
+
+                Image("BobberFull")
+                    .resizable()
+                    .frame(width: 40, height: 80)
+                    .rotationEffect(.degrees(vm.rotation))
+                    .offset(x: vm.offsetX, y: vm.offsetY + 70)
+
+                Image("airnew")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: frameWidth, height: frameHeight)
+                    .offset(x: vm.offsetX - 10)
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .clipped()
+        }
+        .ignoresSafeArea(edges: [.top, .horizontal])
     }
 }
 
