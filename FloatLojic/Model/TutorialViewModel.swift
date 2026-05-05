@@ -56,8 +56,15 @@ final class TutorialViewModel: ObservableObject {
     func playOnce(for type: DisturbanceType) async {
         loopTask?.cancel()
 
+        //loop untuk strike practice
         do {
-            try await playCycle(for: type)
+            resetVisualState()
+
+            if type == .strike {
+                try await animateStrikerPractice()
+            } else {
+                try await playCycle(for: type)
+            }
         } catch is CancellationError {
             return
         } catch {
@@ -151,6 +158,16 @@ final class TutorialViewModel: ObservableObject {
 
         bubbleState = .none
     }
+    
+    // NEW: ANIMATE STRIKE UNTUK PRACTICE
+    private func animateStrikerPractice() async throws {
+        let startTime = Date()
+
+        while Date().timeIntervalSince(startTime) < 5 {
+            try await animateStriker()
+        }
+    }
+    
 
     // umpan kosong
     private func animateEmpty() async throws {
