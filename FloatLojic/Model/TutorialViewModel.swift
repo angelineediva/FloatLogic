@@ -39,7 +39,7 @@ final class TutorialViewModel: ObservableObject {
             while !Task.isCancelled {
                 do {
                     try await self.playCycle(for: type)
-                    try await self.pause(seconds: 0.07)
+                    try await self.pause(seconds: 2)
                 } catch is CancellationError {
                     break
                 } catch {
