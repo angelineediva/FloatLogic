@@ -45,6 +45,26 @@ final class TutorialViewModel: ObservableObject {
         }
     }
 
+    // NEW: Fungsi untuk Stops any running animation loop and restores the default bobber state.
+    func stopLoop() {
+        loopTask?.cancel()
+        loopTask = nil
+        resetVisualState()
+    }
+
+    // NEW: fungsi untuk single disturbance cycle for practice mode without starting a loop.
+    func playOnce(for type: DisturbanceType) async {
+        loopTask?.cancel()
+
+        do {
+            try await playCycle(for: type)
+        } catch is CancellationError {
+            return
+        } catch {
+            return
+        }
+    }
+
     private func resetVisualState() {
         offsetX = 0
         offsetY = 0
