@@ -9,9 +9,8 @@ import SwiftUI
 
 struct TutorialCard: View {
     let disturbances: [DisturbanceInfo]
-    var onStartNow: () -> Void = {}
-
-    @State private var selectedIndex: Int = 0
+    @Binding var selectedIndex: Int
+    var onStart: () -> Void = {}
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -22,12 +21,12 @@ struct TutorialCard: View {
                 ForEach(Array(disturbances.enumerated()), id: \.offset) { index, disturbance in
                     VStack(alignment: .leading, spacing: 0) {
                         Text(disturbance.title)
-                            .font(.system(size: 22, weight: .semibold, design: .serif))
+                            .font(.system(size: 22, weight: .semibold, design: .rounded))
                             .foregroundColor(.primary)
                             .padding(.bottom, 8)
 
                         Text(disturbance.body)
-                            .font(.system(size: 14))
+                            .font(.system(size: 14, design: .rounded))
                             .foregroundColor(.secondary)
                             .lineSpacing(4)
                             .environment(\.layoutDirection, .leftToRight)
@@ -64,13 +63,14 @@ struct TutorialCard: View {
     // MARK: - CTA Button
     private var startButton: some View {
         Button {
-            onStartNow()
+            onStart()
         } label: {
             HStack(spacing: 8) {
                 Image(systemName: "figure.fishing")
                     .font(.system(size: 16))
                 Text("Start Now")
-                    .font(.system(size: 16, weight: .medium, design: .serif))
+                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
@@ -82,6 +82,14 @@ struct TutorialCard: View {
 }
 
 #Preview {
-    TutorialCard(disturbances: DisturbanceInfo.all)
-        .padding()
+    TutorialCardPreview()
+}
+
+private struct TutorialCardPreview: View {
+    @State private var selectedIndex: Int = 0
+
+    var body: some View {
+        TutorialCard(disturbances: DisturbanceInfo.all, selectedIndex: $selectedIndex)
+            .padding()
+    }
 }
