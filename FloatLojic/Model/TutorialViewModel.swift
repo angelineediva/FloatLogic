@@ -10,12 +10,16 @@ import Combine
 
 @MainActor
 final class TutorialViewModel: ObservableObject {
-    //JANGAN DIHAPUS YANG BUBBLE KARENA AKAN KEPAKE
     enum BubbleState {
-        case none, small, medium, large
+        case none, one, two, three, four
+    }
+    
+    enum BubbleStrikeState {
+        case none, one, two, three, four, five
     }
     
     @Published var bubbleState: BubbleState = .none
+    @Published var bubbleStrikeState: BubbleStrikeState = .none
     @Published var offsetY: CGFloat = 0
     @Published var offsetX: CGFloat = 0
     @Published var rotation: Double = 0
@@ -35,7 +39,7 @@ final class TutorialViewModel: ObservableObject {
             while !Task.isCancelled {
                 do {
                     try await self.playCycle(for: type)
-                    try await self.pause(seconds: 1)
+                    try await self.pause(seconds: 0.07)
                 } catch is CancellationError {
                     break
                 } catch {
@@ -50,6 +54,7 @@ final class TutorialViewModel: ObservableObject {
         offsetY = 0
         rotation = 0
         bubbleState = .none
+        bubbleStrikeState = .none
     }
 
     // MARK: - Animations
@@ -91,45 +96,70 @@ final class TutorialViewModel: ObservableObject {
 
     // kena nibble
     private func animateNibble() async throws {
-        bubbleState = .small
 
         withAnimation(.easeInOut(duration: 0.2)) {
             offsetY = 6
         }
-        try await pause(seconds: 0.2)
 
-        bubbleState = .medium
+        bubbleState = .one
+        try await pause(seconds: 0.08)
+
+        bubbleState = .two
+        try await pause(seconds: 0.08)
+
+        bubbleState = .three
+        try await pause(seconds: 0.08)
+
+        bubbleState = .four
+        try await pause(seconds: 0.1)
 
         withAnimation(.easeInOut(duration: 0.2)) {
             offsetY = 0
         }
-        try await pause(seconds: 0.2)
 
+        try await pause(seconds: 0.2)
         bubbleState = .none
+       
     }
+
 
     // kena umpan
     private func animateStriker() async throws {
-        bubbleState = .small
+        bubbleStrikeState = .none
 
         withAnimation(.easeInOut(duration: 0.15)) {
             offsetY = 50
         }
         try await pause(seconds: 0.15)
+        
+        
+        bubbleStrikeState = .one
+        bubbleStrikeState = .two
+        try await pause(seconds: 0.08)
 
+        
+        bubbleStrikeState = .three
+        try await pause(seconds: 0.08)
+
+
+        
         withAnimation(.spring(response: 0.4, dampingFraction: 0.4)) {
-            offsetY = 30
+            offsetY = 70
         }
-        try await pause(seconds: 0.4)
+        bubbleStrikeState = .four
+        try await pause(seconds: 0.08)
+        
+        bubbleStrikeState = .five
 
-        bubbleState = .large
+        try await pause(seconds: 0.08)
 
         withAnimation(.easeOut(duration: 0.3)) {
             offsetY = 0
         }
-        try await pause(seconds: 0.3)
-
-        bubbleState = .none
+        bubbleStrikeState = .none
+        
+        
+        
     }
 
     // umpan kosong
