@@ -4,10 +4,7 @@
 //
 //  Created by Feivel Qutby on 04/05/26.
 //
-
-import AVFoundation
 import SwiftUI
-import UIKit
 
 struct HomeView: View {
     @GestureState private var isPressed = false
@@ -52,7 +49,6 @@ struct HomeView: View {
                         }
                 )            }
         }
-        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
