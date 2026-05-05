@@ -56,7 +56,7 @@ struct TutorialView: View {
                 Image("Water")
                     .resizable()
                     .scaledToFill()
-//                    .frame(width: frameWidth, height: frameHeight)
+                    .frame(width: frameWidth, height: frameHeight)
 
                 Image("BobberFull")
                     .resizable()
