@@ -32,31 +32,35 @@ struct FeedbackCard: View {
             
             Rectangle()
                 .fill(Color.white.opacity(1))
-                .frame(width: 370, height: 560)
+                .frame(width: 370, height: 550)
                 .cornerRadius(20)
                 .shadow(radius: 10)
+                .padding(.top, 30)
+                
             
             VStack{
-                Text(selectFeedback.title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
-                    .padding(.horizontal, 20)
-                
+//                Text(selectFeedback.title)
+//                    .font(.system(size: 35, weight: .black, design: .rounded))
+//                    .foregroundStyle(.black)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(.black)
+//                    .padding(.horizontal, 20)
+//                    .padding(.top, 30)
+//                 
                 
                 Image(selectFeedback.image)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 160)
-                    .padding()
-                
-                
+                    .frame(height: 190)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
                 
                 
                 VStack{
                     
                     VStack{
                         Text(selectFeedback.message)
+                            .font(.system(size: 24, weight: .black, design: .rounded))
                             .fontWeight(.bold)
                             .font(.system(size: 20))
                             .foregroundColor(.black)
@@ -70,12 +74,15 @@ struct FeedbackCard: View {
                             .cornerRadius(10)
                             .padding(.horizontal, 20)
                             .padding(.bottom, 20)
-                            .multilineTextAlignment(.center)
+                            
+                            
+                            
+                            
                         
                     }
-                    .background(Color(.gray).opacity(0.2))
+                    //.background(Color(.blue).opacity(0.15))
                     .cornerRadius(20)
-                    .padding()
+                    .padding(.bottom, 20)
                     
                     
                     
@@ -83,19 +90,6 @@ struct FeedbackCard: View {
                     
                     
                     HStack{
-                        
-                        Button(action: {
-                            onStartNow()
-                        }) {
-                            Text("Try Again")
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color(.blue).opacity(0.8))
-                                .cornerRadius(10)
-                            
-                            
-                        }
                         
                         
                         Button(action: {
@@ -105,16 +99,38 @@ struct FeedbackCard: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(.blue)
                                 .padding()
-                                .padding(.horizontal, 15)
-                                .background(Color(.white).opacity(0.05))
-                                .cornerRadius(10)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.blue, lineWidth: 1)
-                                )
+                                .padding(.horizontal, 30)
+                                .background(Color(.gray).opacity(0.15))
+                                .cornerRadius(50)
+                            
+//                                .background(
+//                                    Capsule()
+//                                        .fill(Color.gray.opacity(0.05))
+//                                        .overlay(
+//                                            Capsule()
+//                                                  .stroke(Color.black.opacity(0.2), lineWidth: 4)
+//                                                .blur(radius: 3)
+//                                                .offset(x: 2, y: 2)
+//                                                .mask(Capsule())
+//                                        )
+//                                )
+                            
+                        }
+                        
+                        Button(action: {
+                            onStartNow()
+                        }) {
+                            Text("Try Again")
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding()
+                                .padding(.horizontal, 20)
+                                .background(Color(.blue).opacity(0.8))
+                                .cornerRadius(50)
                             
                             
                         }
+                        
                         
                         
                     }
