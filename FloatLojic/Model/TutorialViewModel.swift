@@ -26,7 +26,7 @@ final class TutorialViewModel: ObservableObject {
         loopTask?.cancel()
     }
 
-    // MARK: - Loop Control
+    // MARK: - Loop Control : ini nge loop nya di sini
     func startLoop(for type: DisturbanceType) {
         loopTask?.cancel()
         loopTask = Task { [weak self] in
