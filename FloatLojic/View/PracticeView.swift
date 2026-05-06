@@ -25,7 +25,7 @@ struct PracticeView: View {
                     .ignoresSafeArea()
 
                 FeedbackCard(
-                    state: feedbackState,
+                    feedback: [feedbackState.feedbackInfo],
                     onHome: handleHome,
                     onTryAgain: startPracticeSession
                 )

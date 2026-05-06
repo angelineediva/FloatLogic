@@ -8,6 +8,10 @@
 import Foundation
 import SwiftUI
 
+//snake_case  feedback_Card_State
+//camelcase     -> feedbackCardState -> non object -> var, func
+//non camelcase -> FeedbackCardState -> object -> class/struct/enum/protocol
+
 enum FeedbackType: CaseIterable {
     case strike
     case fail
