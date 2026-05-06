@@ -21,7 +21,7 @@ struct HomeView: View {
             VStack {
                 Spacer()
                     .frame(maxHeight: 50)
-                Text("Float Logic")
+                Text("PLuP!")
                     .font(.system(size: 58, weight: .black, design: .rounded))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.4), radius: 0, x: 3, y: 3) // hard shadow biar cartoon
