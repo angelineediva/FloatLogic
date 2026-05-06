@@ -15,7 +15,7 @@ struct TutorialCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             tabIndicator
-                .padding(.bottom, 20)
+                .padding(.bottom, 17)
 
             TabView(selection: $selectedIndex) {
                 ForEach(Array(disturbances.enumerated()), id: \.offset) { index, disturbance in
@@ -23,10 +23,10 @@ struct TutorialCard: View {
                         Text(disturbance.title)
                             .font(.system(size: 28, weight: .semibold, design: .rounded))
                             .foregroundColor(.primary)
-                            .padding(.bottom, 8)
+                            .padding(.bottom, 4)
 
                         Text(disturbance.body)
-                            .font(.system(size: 20, design: .rounded))
+                            .font(.system(size: 17, design: .rounded))
                             .foregroundColor(.secondary)
                             .lineSpacing(4)
                             .environment(\.layoutDirection, .leftToRight)
@@ -46,7 +46,7 @@ struct TutorialCard: View {
         }
         .padding(20)
         .background(Color(.systemBackground))
-        .cornerRadius(20)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 
     // MARK: - Tab Indicator
@@ -54,6 +54,7 @@ struct TutorialCard: View {
         Picker("Disturbance", selection: $selectedIndex) {
             ForEach(disturbances.indices, id: \.self) { index in
                 Image(systemName: disturbances[index].iconName)
+                    .accessibilityLabel(disturbances[index].title)
                     .tag(index)
             }
         }
@@ -76,13 +77,13 @@ struct TutorialCard: View {
             .padding(.vertical, 16)
             .background(Color(.label))
             .foregroundColor(Color(.systemBackground))
-            .cornerRadius(14)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
     }
 }
 
 #Preview {
-    TutorialCardPreview()
+    TutorialView()
 }
 
 private struct TutorialCardPreview: View {

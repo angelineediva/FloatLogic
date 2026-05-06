@@ -24,16 +24,16 @@ struct DisturbanceInfo {
 extension DisturbanceInfo {
     static let all: [DisturbanceInfo] = [
         DisturbanceInfo(
-            type: .wind,
-            title: "Wind",
-            body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans this isn't a fish bite.",
-            iconName: "wind"
-        ),
-        DisturbanceInfo(
             type: .noBait,
             title: "No Bait",
             body: "When the bait is gone, the float feels lighter and moves unnaturally either too stable or too buoyant. It's time to lift it and add a new bait.",
             iconName: "exclamationmark.arrow.trianglehead.counterclockwise.rotate.90"
+        ),
+        DisturbanceInfo(
+            type: .wind,
+            title: "Wind",
+            body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans this isn't a fish bite.",
+            iconName: "wind"
         ),
         DisturbanceInfo(
             type: .fishNibble,
@@ -44,7 +44,7 @@ extension DisturbanceInfo {
         DisturbanceInfo(
             type: .strike,
             title: "Strike",
-            body: "Underwater currents push the bobber slowly and consistently. Unlike wind, their movement is smoother and originates from beneath the surface.",
+            body: "When the bobber dips sharply and pauses the fish has taken the bait. Pull now with a firm snap of the wrist.",
             iconName: "checkmark"
         )
     ]
