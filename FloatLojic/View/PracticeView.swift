@@ -26,7 +26,7 @@ struct PracticeView: View {
 
                 FeedbackCard(
                     feedback: [feedbackState.feedbackInfo],
-                    onHome: handleHome,
+                    onHome: handleBackToTutorial,
                     onTryAgain: startPracticeSession
                 )
             }
@@ -133,7 +133,7 @@ struct PracticeView: View {
         }
     }
 
-    private func handleHome() {
+    private func handleBackToTutorial() {
         practiceLoopTask?.cancel()
         tutorialVM.stopLoop()
         dismiss()
