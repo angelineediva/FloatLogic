@@ -52,8 +52,8 @@ struct TutorialView: View {
                 onStart: { showsPracticeView = true }
             )
             //                .padding(.horizontal, 20)
-            //                .padding(.top, 24)
-            //                .padding(.bottom, 24)
+                            .padding(.top, 12)
+//                            .padding(.bottom, 24)
         }
         .navigationDestination(isPresented: $showsPracticeView) {
             PracticeView()

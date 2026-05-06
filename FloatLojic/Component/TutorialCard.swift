@@ -21,12 +21,12 @@ struct TutorialCard: View {
                 ForEach(Array(disturbances.enumerated()), id: \.offset) { index, disturbance in
                     VStack(alignment: .leading, spacing: 0) {
                         Text(disturbance.title)
-                            .font(.system(size: 22, weight: .semibold, design: .rounded))
+                            .font(.system(size: 28, weight: .semibold, design: .rounded))
                             .foregroundColor(.primary)
                             .padding(.bottom, 8)
 
                         Text(disturbance.body)
-                            .font(.system(size: 14, design: .rounded))
+                            .font(.system(size: 20, design: .rounded))
                             .foregroundColor(.secondary)
                             .lineSpacing(4)
                             .environment(\.layoutDirection, .leftToRight)
@@ -39,7 +39,7 @@ struct TutorialCard: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(height: 100)
+            .frame(height: 150)
             .padding(.bottom, 24)
 
             startButton
