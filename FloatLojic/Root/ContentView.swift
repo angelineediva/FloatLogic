@@ -12,8 +12,6 @@ struct ContentView: View {
         NavigationStack {
             HomeView()
         }
-        
-        
     }
 }
 
