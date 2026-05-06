@@ -1,10 +1,3 @@
-//
-//  MotionSample.swift
-//  FloatLojic
-//
-//  Created by Graceila Natasya on 05/05/26.
-//
-
 
 //
 //  MotionSample.swift

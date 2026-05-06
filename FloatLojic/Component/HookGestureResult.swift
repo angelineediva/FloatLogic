@@ -1,26 +1,4 @@
-//
-//  HookGestureResult.swift
-//  FloatLojic
-//
-//  Created by Graceila Natasya on 05/05/26.
-//
 
-
-//
-//  GestureAnalyzer.swift
-//  FloatLojic
-//
-//  Stateless rule-based analyzer that inspects a window of MotionSamples
-//  and classifies a "fishing hook" gesture.
-//
-//  ── Gesture mental model ──────────────────────────────────────────────
-//
-//  The player holds the phone like a fishing rod handle (portrait or slight
-//  landscape tilt). A hook gesture looks like:
-//
-//    1. (Optional) A small downward dip or neutral stillness → preparation.
-//    2. A fast upward AND slightly backward snap of the wrist → the strike.
-//
 //  In device coordinates (portrait, screen facing the player):
 //    +Y  = toward the top of the phone (upward)
 //    -Z  = away from the player (backward / forward-cast direction)
@@ -41,30 +19,16 @@
 //    • Idle / walking noise:    magnitude ≈ 0.05–0.15 g
 //    • Casual upward flick:     peak ≈ 0.8–1.5 g
 //    • Deliberate hook motion:  peak ≈ 1.8–4.0 g
-//
-//  We set the "strong" threshold at 1.8 g and "weak" at 0.9 g.
-//  Adjust these constants in `Thresholds` to tune sensitivity per device.
-//
 
 import Foundation
 import simd
 
 // MARK: - HookGestureResult
 
-/// Classification returned by GestureAnalyzer for a given sample window.
 enum HookGestureResult {
-    /// Clear, well-formed hook gesture: strong upward+backward arc.
     case strongValidHook
-
-    /// Hook-like motion detected but below the strong threshold.
-    /// May be a hesitant cast or device held at an unusual angle.
     case weakHook
-
-    /// Sufficient acceleration detected but in the wrong direction
-    /// (e.g., a downward slam or a sideways swipe).
     case wrongDirection
-
-    /// No significant motion detected; device is still or only drifting.
     case noMotion
 }
 

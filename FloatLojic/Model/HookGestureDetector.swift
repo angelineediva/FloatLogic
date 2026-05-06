@@ -25,36 +25,22 @@ import Combine
 
 // MARK: - HookGestureDetector
 
-/// Observable coordinator. Instantiate once per game scene.
 @MainActor
-final class HookGestureDetector: ObservableObject {
+final class HookGestureDetector: ObservableObject { //final class agar fungsi ini tidak bisa diubah lewat inherit (kalau mau class biasa aja jg bs)
 
-    // MARK: Published
-
-    /// The most recently computed gesture classification.
+//  knp pake private(set) ini buat anndain aja kalau avriable ini gabisa diubah di class lain
+    
     @Published private(set) var latestResult: HookGestureResult = .noMotion
-
-    /// Convenience flag for binding to UI state (e.g., disabling the button
-    /// while a motion session is not running).
     @Published private(set) var isRunning: Bool = false
-
-    // MARK: Dependencies
 
 //    private let motionManager  = MotionManager()
     let motionManager = MotionManager()
-    private let gestureAnalyzer = GestureAnalyzer()
+    let gestureAnalyzer = GestureAnalyzer()
 
-    // MARK: Private
+    var analysisTimer: AnyCancellable?
+    let analysisHz: Double = 15 //analisis per 15hz/0.66 detik
 
-    /// Timer that triggers gesture analysis at a fixed cadence.
-    /// We don't need to analyze every single 60 Hz frame — 15 Hz is plenty
-    /// to catch a ~1-second gesture event, and it keeps CPU overhead low.
-    private var analysisTimer: AnyCancellable?
-    private let analysisHz: Double = 15
-
-    // MARK: Public API
-
-    /// Starts motion capture and the periodic analysis loop.
+//    start stop fucntion
     func start() {
         guard !isRunning else { return }
         motionManager.startUpdates()
@@ -62,7 +48,6 @@ final class HookGestureDetector: ObservableObject {
         isRunning = true
     }
 
-    /// Stops motion capture, cancels the analysis loop, and resets the result.
     func stop() {
         motionManager.stopUpdates()
         analysisTimer?.cancel()
@@ -73,15 +58,12 @@ final class HookGestureDetector: ObservableObject {
 
     // MARK: - Private
 
-    /// Fires the analyzer on the published `samples` buffer at `analysisHz`.
     private func startAnalysisLoop() {
         analysisTimer = Timer.publish(every: 1.0 / analysisHz, on: .main, in: .common)
             .autoconnect()
-            .sink { [weak self] _ in
+            .sink { [weak self] _ in //weak self agar tidakn terjadi memory leak
                 guard let self else { return }
                 let result = self.gestureAnalyzer.analyze(self.motionManager.samples)
-                // Only update the published property when the result changes
-                // to avoid spurious SwiftUI redraws.
                 if result != self.latestResult {
                     self.latestResult = result
                 }
@@ -91,15 +73,15 @@ final class HookGestureDetector: ObservableObject {
 
 // MARK: - HookGestureResult conveniences
 
-extension HookGestureResult: Equatable {}
+//extension HookGestureResult: Equatable {}
 
 extension HookGestureResult: CustomDebugStringConvertible {
     var debugDescription: String {
         switch self {
-        case .strongValidHook: return "✅ Strong Valid Hook"
-        case .weakHook:        return "🟡 Weak Hook"
-        case .wrongDirection:  return "❌ Wrong Direction"
-        case .noMotion:        return "💤 No Motion"
+        case .strongValidHook: return "strike"
+        case .weakHook:        return "u r too weaak!!"
+        case .wrongDirection:  return "Wrong Direction"
+        case .noMotion:        return "To loose"
         }
     }
 }
