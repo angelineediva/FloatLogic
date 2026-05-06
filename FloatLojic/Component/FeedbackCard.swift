@@ -8,140 +8,80 @@
 import SwiftUI
 
 struct FeedbackCard: View {
-    
     let feedback: [FeedbackInfo]
     var onHome: () -> Void = {}
     var onTryAgain: () -> Void = {}
-    
+
     @State private var selectFeedbackIndex: Int = 0
-    
-    
+
     private var selectFeedback: FeedbackInfo {
         feedback[selectFeedbackIndex]
     }
-    
+
     var body: some View {
-        
-        ZStack{
-            
+        ZStack {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
-                .onTapGesture {
-                }
-            
-            Rectangle()
-                .fill(Color(.systemBackground))
-                .frame(width: 370, height: 550)
-                .cornerRadius(20)
-                .shadow(radius: 10)
-                .padding(.top, 30)
-                
-            
-            VStack{
-//                Text(selectFeedback.title)
-//                    .font(.system(size: 35, weight: .black, design: .rounded))
-//                    .foregroundStyle(.black)
-//                    .fontWeight(.bold)
-//                    .foregroundColor(.black)
-//                    .padding(.horizontal, 20)
-//                    .padding(.top, 30)
-//
-                
+
+            VStack(spacing: 0) {
+                // Image
                 Image(selectFeedback.image)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 190)
-                    .padding(.bottom, 20)
-                    .padding(.top, 20)
-                
-                
-                VStack{
-                    
-                    VStack{
-                        Text(selectFeedback.message)
-                            .font(.system(size: 24, weight: .black, design: .rounded))
-                            .fontWeight(.bold)
-                            .font(.system(size: 20))
+                    .frame(maxHeight: 180)
+                    .padding(.top, 28)
+                    .padding(.bottom, 16)
+
+                // Message title
+                Text(selectFeedback.message)
+                    .font(.system(size: 22, weight: .black, design: .rounded))
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
+
+                // Body
+                Text(selectFeedback.body)
+                    .font(.system(size: 15, weight: .regular, design: .rounded))
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 28)
+
+                Divider()
+
+                // Buttons
+                HStack(spacing: 12) {
+                    Button(action: onHome) {
+                        Text("Home")
+                            .font(.system(size: 16, weight: .semibold, design: .rounded))
                             .foregroundColor(.primary)
-                            .padding(.horizontal, 20)
-                            .padding(.top, 20)
-                            .padding(.bottom, 10)
-                        
-                        
-                        Text(selectFeedback.body)
-                            .font(.system(size: 15))
-                            .foregroundColor(.secondary)
-                            .cornerRadius(10)
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 20)
-                            .multilineTextAlignment(TextAlignment.center)
-                            
-                        
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44)
+                            .background(Color(.tertiarySystemFill))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
-//                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(20)
-                    .padding(.bottom, 20)
-                    
-                    
-                    HStack{
-                        Button(action: {
-                            onHome()
-                        }) {
-                            Text("Home")
-                                .fontWeight(.bold)
-                                .foregroundColor(.primary)
-                                .padding()
-                                .padding(.horizontal, 30)
-                                .background(Color(.tertiarySystemFill))
-                                .cornerRadius(50)
-                            
-//                                .background(
-//                                    Capsule()
-//                                        .fill(Color.gray.opacity(0.05))
-//                                        .overlay(
-//                                            Capsule()
-//                                                  .stroke(Color.black.opacity(0.2), lineWidth: 4)
-//                                                .blur(radius: 3)
-//                                                .offset(x: 2, y: 2)
-//                                                .mask(Capsule())
-//                                        )
-//                                )
-                            
-                        }
-                        
-                        Button(action: {
-                            onTryAgain()
-                        }) {
-                            Text("Try Again")
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding()
-                                .padding(.horizontal, 20)
-                                .background(Color(.blue).opacity(0.8))
-                                .cornerRadius(50)
-                            
-                            
-                        }
-                        
-                        
-                        
+
+                    Button(action: onTryAgain) {
+                        Text("Try Again")
+                            .font(.system(size: 16, weight: .semibold, design: .rounded))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44)
+                            .background(Color.accentColor)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
-                    
                 }
-                
-                
-                
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
             }
-            
-            .padding(20)
-            .cornerRadius(20)
-            
-            
-            
-            
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .shadow(color: .black.opacity(0.15), radius: 20, y: 8)
+            .padding(.horizontal, 24)
+            .padding(.top, 30)
         }
     }
-    
 }
 
 #Preview {

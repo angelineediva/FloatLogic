@@ -44,7 +44,7 @@ extension DisturbanceInfo {
         DisturbanceInfo(
             type: .strike,
             title: "Strike",
-            body: "Underwater currents push the bobber slowly and consistently. Unlike wind, their movement is smoother and originates from beneath the surface.",
+            body: "When the bobber dips sharply and pauses the fish has taken the bait. Pull now with a firm snap of the wrist.",
             iconName: "checkmark"
         )
     ]

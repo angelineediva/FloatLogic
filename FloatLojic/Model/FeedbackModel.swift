@@ -52,7 +52,7 @@ extension FeedbackInfo {
             title: "STRIKE!",
             image: "ikanaw",
             message: "You’ve got the fish!",
-            body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans—this isn't a fish bite."
+            body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans this isn't a fish bite."
         ),
         FeedbackInfo(
             type: .fail,
@@ -63,7 +63,7 @@ extension FeedbackInfo {
         ),
         FeedbackInfo(
             type: .toolate,
-            title: "To Late",
+            title: "Too Late",
             image: "kail",
             message: "You’re too late!",
             body: "The wind creates a horizontal drag on the bobber, causing it to shift slowly in one direction. The line tilts and the float leans—this isn't a fish bite."

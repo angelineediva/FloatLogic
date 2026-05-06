@@ -51,7 +51,7 @@ struct TutorialView: View {
                 selectedIndex: $selectedIndex,
                 onStart: { showsPracticeView = true }
             )
-            //                .padding(.horizontal, 20)
+                            .padding(.horizontal, 5)
                             .padding(.top, 12)
 //                            .padding(.bottom, 24)
         }
@@ -73,11 +73,12 @@ struct TutorialView: View {
     
     private var animationFrame: some View {
         GeometryReader { geometry in
-            let scale: CGFloat = 2  // ← naik-turunin ini buat zoom
-            let frameWidth = (geometry.size.width + 80) * scale
-            let frameHeight = geometry.size.height * scale
+            let frameWidth = geometry.size.width + 80
+            let frameHeight = geometry.size.height
+            let scale: CGFloat = 2
 
             ZStack {
+                // Background & Water — scale normal
                 Image("Background")
                     .resizable()
                     .scaledToFill()
@@ -88,29 +89,32 @@ struct TutorialView: View {
                     .scaledToFill()
                     .frame(width: frameWidth, height: frameHeight)
 
+                // Bobber — scale up
                 Image("BobberFull")
                     .resizable()
-                    .frame(width: 40 * scale, height: 80 * scale)  // bobber ikut scale
+                    .frame(width: 40 * scale, height: 80 * scale)
                     .rotationEffect(.degrees(vm.rotation))
                     .offset(x: vm.offsetX, y: vm.offsetY + 70)
 
+                // Air — scale up
                 Image("airnew")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: frameWidth, height: frameHeight)
+                    .frame(width: frameWidth * scale, height: frameHeight * scale)
                     .offset(x: -15, y: -70)
 
+                // Bubble states — scale up
                 if vm.bubbleState != .none {
                     Image(bubbleImageName)
                         .resizable()
-                        .frame(width: frameWidth, height: frameHeight)
+                        .frame(width: frameWidth * scale, height: frameHeight * scale)
                         .offset(x: -5, y: 55)
                 }
 
                 if vm.bubbleStrikeState != .none {
                     Image(bubbleStrikeImageName)
                         .resizable()
-                        .frame(width: frameWidth, height: frameHeight)
+                        .frame(width: frameWidth * scale, height: frameHeight * scale)
                         .offset(x: -5, y: 55)
                 }
             }
