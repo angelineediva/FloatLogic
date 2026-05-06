@@ -30,7 +30,7 @@ final class TutorialViewModel: ObservableObject {
         loopTask?.cancel()
     }
 
-    // MARK: - Loop Control
+    // MARK: - Loop Control : ini nge loop nya di sini
     func startLoop(for type: DisturbanceType) {
         loopTask?.cancel()
         loopTask = Task { [weak self] in
@@ -46,6 +46,33 @@ final class TutorialViewModel: ObservableObject {
                     break
                 }
             }
+        }
+    }
+
+    // NEW: Fungsi untuk Stops any running animation loop and restores the default bobber state.
+    func stopLoop() {
+        loopTask?.cancel()
+        loopTask = nil
+        resetVisualState()
+    }
+
+    // NEW: fungsi untuk single disturbance cycle for practice mode without starting a loop.
+    func playOnce(for type: DisturbanceType) async {
+        loopTask?.cancel()
+
+        //loop untuk strike practice
+        do {
+            resetVisualState()
+
+            if type == .strike {
+                try await animateStrikerPractice()
+            } else {
+                try await playCycle(for: type)
+            }
+        } catch is CancellationError {
+            return
+        } catch {
+            return
         }
     }
 
@@ -161,6 +188,16 @@ final class TutorialViewModel: ObservableObject {
         
         
     }
+    
+    // NEW: ANIMATE STRIKE UNTUK PRACTICE
+    private func animateStrikerPractice() async throws {
+        let startTime = Date()
+
+        while Date().timeIntervalSince(startTime) < 5 {
+            try await animateStriker()
+        }
+    }
+    
 
     // umpan kosong
     private func animateEmpty() async throws {
