@@ -105,6 +105,7 @@ struct PracticeView: View {
             let frameWidth = geometry.size.width + 80
             let frameHeight = geometry.size.height
             let scale: CGFloat = 2
+            let overlayScale: CGFloat = 1.45
 
             ZStack {
                 // Background & Water — normal scale
@@ -136,15 +137,15 @@ struct PracticeView: View {
                 if tutorialVM.bubbleState != .none {
                     Image(bubbleImageName)
                         .resizable()
-                        .frame(width: frameWidth * scale, height: frameHeight * scale)
-                        .offset(x: -5, y: -5)
+                        .frame(width: frameWidth * overlayScale, height: frameHeight * overlayScale)
+                        .offset(x: -5, y: 40)
                 }
 
                 if tutorialVM.bubbleStrikeState != .none {
                     Image(bubbleStrikeImageName)
                         .resizable()
-                        .frame(width: frameWidth * scale, height: frameHeight * scale)
-                        .offset(x: -5, y: -5)
+                        .frame(width: frameWidth * overlayScale, height: frameHeight * overlayScale)
+                        .offset(x: -5, y: 40)
                 }
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
