@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E6A003A2FA75FFA00CE36DB /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2E6A00392FA75FFA00CE36DB /* DotLottie */; };
-		2E6A003C2FA75FFA00CE36DB /* DotLottiePlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 2E6A003B2FA75FFA00CE36DB /* DotLottiePlayer */; };
+		2E6A01132FA995E200CE36DB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2E6A01122FA995E200CE36DB /* Lottie */; };
+		2E6A01182FA9A78D00CE36DB /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2E6A01172FA9A78D00CE36DB /* DotLottie */; };
+		2E6A011A2FA9A78D00CE36DB /* DotLottiePlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 2E6A01192FA9A78D00CE36DB /* DotLottiePlayer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E6A003C2FA75FFA00CE36DB /* DotLottiePlayer in Frameworks */,
-				2E6A003A2FA75FFA00CE36DB /* DotLottie in Frameworks */,
+				2E6A011A2FA9A78D00CE36DB /* DotLottiePlayer in Frameworks */,
+				2E6A01132FA995E200CE36DB /* Lottie in Frameworks */,
+				2E6A01182FA9A78D00CE36DB /* DotLottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,8 +82,9 @@
 			);
 			name = FloatLojic;
 			packageProductDependencies = (
-				2E6A00392FA75FFA00CE36DB /* DotLottie */,
-				2E6A003B2FA75FFA00CE36DB /* DotLottiePlayer */,
+				2E6A01122FA995E200CE36DB /* Lottie */,
+				2E6A01172FA9A78D00CE36DB /* DotLottie */,
+				2E6A01192FA9A78D00CE36DB /* DotLottiePlayer */,
 			);
 			productName = FloatLojic;
 			productReference = 2E6AFFF22FA3059A00CE36DB /* FloatLojic.app */;
@@ -112,7 +115,8 @@
 			mainGroup = 2E6AFFE92FA3059A00CE36DB;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2E6A00382FA75FFA00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
+				2E6A01112FA995E200CE36DB /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				2E6A01162FA9A78D00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2E6AFFF32FA3059A00CE36DB /* Products */;
@@ -358,7 +362,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2E6A00382FA75FFA00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
+		2E6A01112FA995E200CE36DB /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 4.6.0;
+			};
+		};
+		2E6A01162FA9A78D00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/LottieFiles/dotlottie-ios.git";
 			requirement = {
@@ -369,14 +381,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2E6A00392FA75FFA00CE36DB /* DotLottie */ = {
+		2E6A01122FA995E200CE36DB /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2E6A00382FA75FFA00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
+			package = 2E6A01112FA995E200CE36DB /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		2E6A01172FA9A78D00CE36DB /* DotLottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2E6A01162FA9A78D00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
 			productName = DotLottie;
 		};
-		2E6A003B2FA75FFA00CE36DB /* DotLottiePlayer */ = {
+		2E6A01192FA9A78D00CE36DB /* DotLottiePlayer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2E6A00382FA75FFA00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
+			package = 2E6A01162FA9A78D00CE36DB /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
 			productName = DotLottiePlayer;
 		};
 /* End XCSwiftPackageProductDependency section */

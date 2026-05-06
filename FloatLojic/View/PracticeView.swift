@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PracticeView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var tutorialVM = TutorialViewModel()
     @StateObject private var practiceVM = PracticeViewModel()
     @State private var practiceLoopTask: Task<Void, Never>?
@@ -23,9 +24,11 @@ struct PracticeView: View {
                 Color.black.opacity(0.22)
                     .ignoresSafeArea()
 
-                FeedbackCard(state: feedbackState) {
-                    startPracticeSession()
-                }
+                FeedbackCard(
+                    state: feedbackState,
+                    onHome: handleHome,
+                    onTryAgain: startPracticeSession
+                )
             }
         }
         .navigationBarBackButtonHidden(practiceVM.feedbackState != nil)
@@ -128,6 +131,12 @@ struct PracticeView: View {
         practiceLoopTask = Task { @MainActor in
             await runPracticeLoop()
         }
+    }
+
+    private func handleHome() {
+        practiceLoopTask?.cancel()
+        tutorialVM.stopLoop()
+        dismiss()
     }
 
     @MainActor
