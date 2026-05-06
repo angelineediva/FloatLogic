@@ -125,7 +125,7 @@ final class TutorialViewModel: ObservableObject {
     private func animateNibble() async throws {
 
         withAnimation(.easeInOut(duration: 0.2)) {
-            offsetY = 6
+            offsetY = 50
         }
 
         bubbleState = .one
@@ -152,35 +152,41 @@ final class TutorialViewModel: ObservableObject {
 
     // kena umpan
     private func animateStriker() async throws {
+        let initialDipDuration = 0.3
+        let deepStrikeDuration = 0.2
+        let recoveryDuration = 0.18
+        let initialBubbleFrameDuration = initialDipDuration / 3
+        let strikeBubbleFrameDuration = deepStrikeDuration / 2
+
         bubbleStrikeState = .none
 
-        withAnimation(.easeInOut(duration: 0.15)) {
-            offsetY = 50
+        withAnimation(.easeInOut(duration: initialDipDuration)) {
+            offsetY = 200
         }
-        try await pause(seconds: 0.15)
+        try await pause(seconds: initialBubbleFrameDuration)
         
         
         bubbleStrikeState = .one
         bubbleStrikeState = .two
-        try await pause(seconds: 0.08)
+        try await pause(seconds: initialBubbleFrameDuration)
 
         
         bubbleStrikeState = .three
-        try await pause(seconds: 0.08)
+        try await pause(seconds: initialBubbleFrameDuration)
 
 
         
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.4)) {
-            offsetY = 70
+        withAnimation(.spring(response: deepStrikeDuration, dampingFraction: 0.4)) {
+            offsetY = 200
         }
         bubbleStrikeState = .four
-        try await pause(seconds: 0.08)
+        try await pause(seconds: strikeBubbleFrameDuration)
         
         bubbleStrikeState = .five
 
-        try await pause(seconds: 0.08)
+        try await pause(seconds: strikeBubbleFrameDuration)
 
-        withAnimation(.easeOut(duration: 0.3)) {
+        withAnimation(.easeOut(duration: recoveryDuration)) {
             offsetY = 0
         }
         bubbleStrikeState = .none
@@ -224,4 +230,8 @@ final class TutorialViewModel: ObservableObject {
         try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
         try Task.checkCancellation()
     }
+}
+
+#Preview {
+    TutorialView()
 }

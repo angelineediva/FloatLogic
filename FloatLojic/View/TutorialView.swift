@@ -73,53 +73,46 @@ struct TutorialView: View {
     
     private var animationFrame: some View {
         GeometryReader { geometry in
-            let frameWidth = geometry.size.width + 80
-            let frameHeight = geometry.size.height
-            
+            let scale: CGFloat = 2  // ← naik-turunin ini buat zoom
+            let frameWidth = (geometry.size.width + 80) * scale
+            let frameHeight = geometry.size.height * scale
+
             ZStack {
-                
-                
-                
                 Image("Background")
                     .resizable()
                     .scaledToFill()
                     .frame(width: frameWidth, height: frameHeight)
-                
+
                 Image("Water")
                     .resizable()
                     .scaledToFill()
                     .frame(width: frameWidth, height: frameHeight)
-                
+
                 Image("BobberFull")
                     .resizable()
-                    .frame(width: 40, height: 80)
+                    .frame(width: 40 * scale, height: 80 * scale)  // bobber ikut scale
                     .rotationEffect(.degrees(vm.rotation))
                     .offset(x: vm.offsetX, y: vm.offsetY + 70)
-                
+
                 Image("airnew")
                     .resizable()
                     .scaledToFill()
                     .frame(width: frameWidth, height: frameHeight)
-                    .offset(x: -5)
-                
+                    .offset(x: -15, y: -70)
+
                 if vm.bubbleState != .none {
                     Image(bubbleImageName)
                         .resizable()
                         .frame(width: frameWidth, height: frameHeight)
-                        .offset(x: 0, y: 55)
-                    
+                        .offset(x: -5, y: 55)
                 }
-                
+
                 if vm.bubbleStrikeState != .none {
                     Image(bubbleStrikeImageName)
                         .resizable()
                         .frame(width: frameWidth, height: frameHeight)
-                        .offset(x: 0, y: 55 )
+                        .offset(x: -5, y: 55)
                 }
-                
-                
-                
-                
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
             .clipped()

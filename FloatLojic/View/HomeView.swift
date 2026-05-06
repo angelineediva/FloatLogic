@@ -7,52 +7,49 @@
 import SwiftUI
 
 struct HomeView: View {
-    @GestureState private var isPressed = false
+    @State private var opacity: Double = 1.0
+    @State private var showTutorial = false
+
     var body: some View {
-        
         ZStack {
-            LoopingVideoBackground(name: "HomepageAsset", fileExtension: "mov")
-                .ignoresSafeArea()
-                .allowsHitTesting(false)
-            
-            VStack {
-                Spacer()
-                    .frame(maxHeight: 50)
-                Text("Float Logic")
-                    .font(.system(size: 58, weight: .black, design: .rounded))
-                    .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.4), radius: 0, x: 3, y: 3) // hard shadow biar cartoon
-                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-                Spacer()
-                    .frame(maxHeight: 400)
-               
-                NavigationLink {
-                    TutorialView()
-                } label: {
-                    HStack(spacing: 8) {
-                        Text("START")
-                            .font(.system(size: 20, weight: .black, design: .rounded))
+            if showTutorial {
+                TutorialView()
+                    .transition(.opacity)
+            } else {
+                ZStack {
+                    LoopingVideoBackground(name: "HomepageAsset", fileExtension: "mov")
+                        .ignoresSafeArea()
+                        .allowsHitTesting(false)
+
+                    VStack {
+                        Spacer()
+                            .frame(maxHeight: 150)
+                        Text("PLup!!!")
+                            .font(.system(size: 58, weight: .black, design: .rounded))
+                            .foregroundStyle(.white)
+                            .shadow(color: .black.opacity(0.4), radius: 0, x: 3, y: 3)
+                            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                        Spacer()
                     }
-                    .foregroundStyle(.black.opacity(0.7))
-                    .padding(.horizontal, 36)
-                    .padding(.vertical, 16)
                 }
-                .glassEffect(.clear, in: Capsule())
-                .buttonStyle(.plain)
-                .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
-                .scaleEffect(isPressed ? 1.12 : 1.0)
-                .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isPressed)
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: 0)
-                        .updating($isPressed) { _, state, _ in
-                            state = true
-                        }
-                )            }
+                .opacity(opacity)
+                .transition(.opacity)
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                withAnimation(.easeInOut(duration: 0.6)) {
+                    opacity = 0.0
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    withAnimation(.easeInOut(duration: 0.4)) {
+                        showTutorial = true
+                    }
+                }
+            }
         }
     }
 }
-
-
 
 #Preview {
     HomeView()
