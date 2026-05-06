@@ -12,13 +12,18 @@ import SwiftUI
 final class PracticeViewModel: ObservableObject {
     static let strikeResponseTimeout: TimeInterval = 5
     static let disturbancePause: TimeInterval = 0.5
-
+    
+    
     @Published private(set) var currentDisturbance: DisturbanceType?
     @Published private(set) var feedbackState: FeedbackCardState?
     @Published private(set) var isSessionActive = false
 
     // Async timeout task used only for the strike case.
     private var strikeTimeoutTask: Task<Void, Never>?
+    private var isFirstDisturbance = true
+    private var disturbancesBeforeStrike = 3
+    private var disturbanceCount = 0
+
 
     deinit {
         strikeTimeoutTask?.cancel()
@@ -29,8 +34,39 @@ final class PracticeViewModel: ObservableObject {
         feedbackState = nil
         currentDisturbance = nil
         isSessionActive = true
+        isFirstDisturbance = true
+
+        disturbanceCount = 0
+        disturbancesBeforeStrike = 3
     }
 
+////    @discardableResult
+//    @discardableResult
+//    func nextDisturbance() -> DisturbanceType? {
+//        guard isSessionActive, feedbackState == nil else {
+//            return nil
+//        }
+//        
+//        strikeTimeoutTask?.cancel()
+//
+//        let pool: [DisturbanceType]
+//
+//        // selama belum 3 kali, STRIKE tidak boleh muncul
+//        if disturbanceCount < disturbancesBeforeStrike {
+//            pool = DisturbanceType.allCases.filter { $0 != .strike }
+//        } else {
+//            pool = DisturbanceType.allCases
+//        }
+//
+//        let nextDisturbance = pool.randomElement() ?? .wind
+//        currentDisturbance = nextDisturbance
+//        
+//        disturbanceCount += 1
+//        scheduleStrikeTimeoutIfNeeded(for: nextDisturbance)
+//
+//        return nextDisturbance
+//    }
+    
     @discardableResult
     func nextDisturbance() -> DisturbanceType? {
         guard isSessionActive, feedbackState == nil else {
@@ -38,8 +74,26 @@ final class PracticeViewModel: ObservableObject {
         }
 
         strikeTimeoutTask?.cancel()
-        let nextDisturbance = DisturbanceType.allCases.randomElement() ?? .wind //random di sini
+
+        let pool = DisturbanceType.allCases
+
+        var selectedPool = pool
+
+        // hitung peluang strike
+        let strikeChance = min(0.1 + Double(disturbanceCount) * 0.1, 0.4)
+
+        // kalau belum lewat 3 disturbance pertama, atau random gagal, exclude strike
+        let allowStrike = disturbanceCount >= disturbancesBeforeStrike
+                          && Double.random(in: 0...1) < strikeChance
+
+        if !allowStrike {
+            selectedPool = pool.filter { $0 != .strike }
+        }
+
+        let nextDisturbance = selectedPool.randomElement() ?? .wind
         currentDisturbance = nextDisturbance
+
+        disturbanceCount += 1
         scheduleStrikeTimeoutIfNeeded(for: nextDisturbance)
 
         return nextDisturbance

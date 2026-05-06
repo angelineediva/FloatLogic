@@ -9,8 +9,14 @@
 import SwiftUI
 
 struct PracticeView: View {
+    
+    @State private var guideTask: Task<Void, Never>?
+    @State private var guideIndex: Int = 0
+    @State private var showGuideFlow = true
     @State private var countdown: Int? = nil
     @State private var countdownTask: Task<Void, Never>?
+    
+    
     @Environment(\.dismiss) private var dismiss
     @StateObject private var tutorialVM = TutorialViewModel()
     @StateObject private var practiceVM = PracticeViewModel()
@@ -54,32 +60,38 @@ struct PracticeView: View {
             }
 
             // Pull button — muncul saat session aktif & ga ada countdown
-            if countdown == nil && practiceVM.isSessionActive {
-                VStack {
-                    Spacer()
-                    Button {
-                        practiceVM.handlePull()
-                    } label: {
-                        Text("Tarik!")
-                            .font(.system(size: 20, weight: .black, design: .rounded))
-                            .foregroundStyle(.black.opacity(0.8))
-                            .padding(.horizontal, 40)
-                            .padding(.vertical, 16)
-                    }
-                    .glassEffect(.regular.tint(Color.white.opacity(0.25)), in: Capsule())
-                    .buttonStyle(.plain)
-                    .shadow(color: .black.opacity(0.15), radius: 8, y: 4)
-                    .padding(.bottom, 40)
-                }
-            }
+//            if countdown == nil && practiceVM.isSessionActive {
+//                VStack {
+//                    Spacer()
+//                    Button {
+//                        practiceVM.handlePull()
+//                    } label: {
+//                        Text("Tarik!")
+//                            .font(.system(size: 20, weight: .black, design: .rounded))
+//                            .foregroundStyle(.black.opacity(0.8))
+//                            .padding(.horizontal, 40)
+//                            .padding(.vertical, 16)
+//                    }
+//                    .glassEffect(.regular.tint(Color.white.opacity(0.25)), in: Capsule())
+//                    .buttonStyle(.plain)
+//                    .shadow(color: .black.opacity(0.15), radius: 8, y: 4)
+//                    .padding(.bottom, 40)
+//                }
+//            }
 
             // Feedback overlay
             if let feedbackState = practiceVM.feedbackState {
                 Color.black.opacity(0.22)
                     .ignoresSafeArea()
+//                FeedbackCard(
+//                    feedback: [feedbackState.feedbackInfo],
+//                    onHome: handleBackToTutorial,
+//                    onTryAgain: startPracticeSession
+//                )
+//                
                 FeedbackCard(
-                    feedback: [feedbackState.feedbackInfo],
-                    onHome: handleBackToTutorial,
+                    feedback: feedbackState.feedbackInfo,
+//                    onHome: handleBackToTutorial,
                     onTryAgain: startPracticeSession
                 )
             }
@@ -87,8 +99,9 @@ struct PracticeView: View {
         .navigationBarBackButtonHidden(practiceVM.feedbackState != nil)
         .onAppear {
             practiceVM.startMotionTracking()
+            
             if !practiceVM.isSessionActive {
-                startCountdown()
+                runGuideFlow()
             }
         }
         .onDisappear {
@@ -96,6 +109,52 @@ struct PracticeView: View {
             countdownTask?.cancel()
             tutorialVM.stopLoop()
             practiceVM.stopMotionTracking()
+        }
+    }
+    
+    private func runGuideFlow() {
+        guideTask?.cancel()
+        
+        guideTask = Task { @MainActor in
+            
+            // STEP 1: Guide1
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            
+            guard !Task.isCancelled else { return }
+            
+            // STEP 2: anim 1-7
+            let frames = [
+                "Guide1 1",
+                "Guide1 2",
+                "Guide1 3",
+                "Guide1 4",
+                "Guide1 5",
+                "Guide1 6",
+                "Guide1 7"
+            ]
+            
+            for frame in frames {
+                guard !Task.isCancelled else { return }
+                _ = frame
+                try? await Task.sleep(nanoseconds: 400_000_000)
+            }
+            
+            // STEP 3: Guide1 8 loop 3x
+            for _ in 0..<3 {
+                guard !Task.isCancelled else { return }
+                try? await Task.sleep(nanoseconds: 600_000_000)
+            }
+            
+            // STEP 4: Guide1 9 loop 3x
+            for _ in 0..<3 {
+                guard !Task.isCancelled else { return }
+                try? await Task.sleep(nanoseconds: 600_000_000)
+            }
+            
+            guard !Task.isCancelled else { return }
+            
+            // lanjut ke countdown EXISTING kamu
+            startCountdown()
         }
     }
 
@@ -118,6 +177,7 @@ struct PracticeView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: frameWidth, height: frameHeight)
+            
 
                 // Bobber — scale up
                 Image("BobberFull")
@@ -184,13 +244,13 @@ struct PracticeView: View {
             await runPracticeLoop()
         }
     }
-
-    private func handleBackToTutorial() {
-        practiceLoopTask?.cancel()
-        countdownTask?.cancel()
-        tutorialVM.stopLoop()
-        dismiss()
-    }
+//
+//    private func handleBackToTutorial() {
+//        practiceLoopTask?.cancel()
+//        countdownTask?.cancel()
+//        tutorialVM.stopLoop()
+//        dismiss()
+//    }
 
     @MainActor
     private func runPracticeLoop() async {
