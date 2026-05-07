@@ -47,16 +47,23 @@ struct PracticeView: View {
         ZStack {
             animationFrame
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-
+            
             if showGuideFlow {
                 Color.black.opacity(0.6)
                     .ignoresSafeArea()
-                Image(guideImageName)
-                    .resizable()
-                    .scaledToFit()
-                    .scaleEffect(1)
-                    .padding(.horizontal, 24)
-                    .transition(.opacity)
+                VStack{
+                    Text("How to play")
+                        .font(.system(size: 48, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .scaleEffect(1.2)
+                        .transition(.scale)
+                    Image(guideImageName)
+                        .resizable()
+                        .scaledToFit()
+                        .scaleEffect(1)
+                        .padding(.horizontal, 24)
+                        .transition(.opacity)
+                }
             }
 
             // Countdown overlay
