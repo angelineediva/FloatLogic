@@ -1,22 +1,12 @@
-//
-//  Untitled.swift
-//  FloatLojic
-//
-//  Created by Angeline on 30/04/26.
-//
-
 import SwiftUI
 
 struct FeedbackCard: View {
-    let feedback: [FeedbackInfo]
+    let feedback: FeedbackInfo
+    
+    @State private var bodyText: String = ""
+    
     var onHome: () -> Void = {}
     var onTryAgain: () -> Void = {}
-
-    @State private var selectFeedbackIndex: Int = 0
-
-    private var selectFeedback: FeedbackInfo {
-        feedback[selectFeedbackIndex]
-    }
 
     var body: some View {
         ZStack {
@@ -24,38 +14,37 @@ struct FeedbackCard: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
+                
                 // Image
-                Image(selectFeedback.image)
+                Image(feedback.image)
                     .resizable()
                     .scaledToFit()
                     .frame(maxHeight: 180)
                     .padding(.top, 28)
-                    .padding(.bottom, 16)
+                    .padding(.bottom, 24)
 
                 // Message title
-                Text(selectFeedback.message)
+                Text(feedback.message)
                     .font(.system(size: 22, weight: .black, design: .rounded))
-                    .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 8)
 
-                // Body
-                Text(selectFeedback.body)
+                // Body (RANDOM)
+                Text(bodyText)
                     .font(.system(size: 15, weight: .regular, design: .rounded))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
-                    .padding(.bottom, 28)
+                    .padding(.bottom, 24)
 
                 Divider()
 
                 // Buttons
                 HStack(spacing: 12) {
                     Button(action: onHome) {
-                        Text("Home")
-                            .font(.system(size: 16, weight: .semibold, design: .rounded))
-                            .foregroundColor(.primary)
+                        Text("Explore Movement")
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
                             .frame(maxWidth: .infinity)
                             .frame(height: 44)
                             .background(Color(.tertiarySystemFill))
@@ -64,7 +53,7 @@ struct FeedbackCard: View {
 
                     Button(action: onTryAgain) {
                         Text("Try Again")
-                            .font(.system(size: 16, weight: .semibold, design: .rounded))
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 44)
@@ -81,9 +70,12 @@ struct FeedbackCard: View {
             .padding(.horizontal, 24)
             .padding(.top, 30)
         }
+        .onAppear {
+            bodyText = feedback.randomBody
+        }
     }
 }
 
 #Preview {
-    FeedbackCard(feedback: FeedbackInfo.all)
+    FeedbackCard(feedback: FeedbackInfo.strikeData)
 }
