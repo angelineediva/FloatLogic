@@ -11,7 +11,7 @@ import SwiftUI
 struct PracticeView: View {
     
     @State private var guideTask: Task<Void, Never>?
-    @State private var guideIndex: Int = 0
+    @State private var guideImageName = "Guide1"
     @State private var showGuideFlow = true
     @State private var countdown: Int? = nil
     @State private var countdownTask: Task<Void, Never>?
@@ -48,9 +48,20 @@ struct PracticeView: View {
             animationFrame
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
+            if showGuideFlow {
+                Color.black.opacity(0.6)
+                    .ignoresSafeArea()
+                Image(guideImageName)
+                    .resizable()
+                    .scaledToFit()
+                    .scaleEffect(1)
+                    .padding(.horizontal, 24)
+                    .transition(.opacity)
+            }
+
             // Countdown overlay
             if let countdown = countdown {
-                Color.black.opacity(0.35)
+                Color.black.opacity(0.6)
                     .ignoresSafeArea()
                 Text("\(countdown)")
                     .font(.system(size: 90, weight: .bold, design: .rounded))
@@ -79,6 +90,7 @@ struct PracticeView: View {
             }
         }
         .onDisappear {
+            guideTask?.cancel()
             practiceLoopTask?.cancel()
             countdownTask?.cancel()
             tutorialVM.stopLoop()
@@ -90,6 +102,8 @@ struct PracticeView: View {
         guideTask?.cancel()
         
         guideTask = Task { @MainActor in
+            showGuideFlow = true
+            guideImageName = "Guide1"
             
             // STEP 1: Guide1
             try? await Task.sleep(nanoseconds: 1_000_000_000)
@@ -109,23 +123,30 @@ struct PracticeView: View {
             
             for frame in frames {
                 guard !Task.isCancelled else { return }
-                _ = frame
+                guideImageName = frame
                 try? await Task.sleep(nanoseconds: 400_000_000)
             }
             
             // STEP 3: Guide1 8 loop 3x
             for _ in 0..<3 {
-                guard !Task.isCancelled else { return }
-                try? await Task.sleep(nanoseconds: 600_000_000)
+                for _ in 0..<1 {
+                    guard !Task.isCancelled else { return }
+                    guideImageName = "Guide1 8"
+                    try? await Task.sleep(nanoseconds: 600_000_000)
+                }
+                
+                // STEP 4: Guide1 9 loop 3x
+                for _ in 0..<1 {
+                    guard !Task.isCancelled else { return }
+                    guideImageName = "Guide1 9"
+                    try? await Task.sleep(nanoseconds: 600_000_000)
+                }
             }
             
-            // STEP 4: Guide1 9 loop 3x
-            for _ in 0..<3 {
-                guard !Task.isCancelled else { return }
-                try? await Task.sleep(nanoseconds: 600_000_000)
-            }
             
             guard !Task.isCancelled else { return }
+            
+            showGuideFlow = false
             
             // lanjut ke countdown EXISTING kamu
             startCountdown()

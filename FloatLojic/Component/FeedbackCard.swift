@@ -42,15 +42,6 @@ struct FeedbackCard: View {
 
                 // Buttons
                 HStack(spacing: 12) {
-                    Button(action: onHome) {
-                        Text("Explore Movement")
-                            .font(.system(size: 14, weight: .semibold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 44)
-                            .background(Color(.tertiarySystemFill))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
-
                     Button(action: onTryAgain) {
                         Text("Try Again")
                             .font(.system(size: 14, weight: .semibold, design: .rounded))
@@ -60,6 +51,7 @@ struct FeedbackCard: View {
                             .background(Color.accentColor)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
+                    
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 16)
