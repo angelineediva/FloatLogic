@@ -7,7 +7,7 @@
 
 import AVFoundation
 import SwiftUI
-import UIKit
+//import UIKit
 
 struct LoopVidCard: View {
     let name: String
